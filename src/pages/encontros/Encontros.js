@@ -10,10 +10,6 @@ export default function Encontros() {
 
     useEffect(() => {
         getEncontros();
-
-        return function cleanup() {
-            console.log('dasda');
-        };
     }, []);
 
     async function getEncontros(params) {
