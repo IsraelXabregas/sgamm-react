@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Button, Col, Row, Badge } from 'reactstrap';
 
 export default function TrableEncontros(props) {
-    const { encontros } = props;
+    const { encontros, handleDelete } = props;
 
     function formatSituacao(data) {
         if (data === 'CONFIRMADO') {
@@ -16,13 +16,13 @@ export default function TrableEncontros(props) {
         }
     }
 
-    function formatDate(data) {
-        let date = new Date(data);
+    function formatDate(unformatedDate) {
+        let date = new Date(unformatedDate);
         return date.toLocaleDateString();
     }
 
-    function formatHour(hora) {
-        return hora.substr(0, 5) + 'h';
+    function formatHour(unformatedTime) {
+        return unformatedTime != null ? unformatedTime.substr(0, 5) + 'h' : null;
     }
 
     return (
@@ -41,19 +41,19 @@ export default function TrableEncontros(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {encontros.map((enc) =>
-                            <tr key={enc.id}>
-                                <td>{enc.titulo}</td>
-                                <td>{enc.descricao.substr(0, 40)}...</td>
-                                <td>{formatDate(enc.data)}</td>
-                                <td>{formatHour(enc.hora)}</td>
+                        {encontros.map((encontro) =>
+                            <tr key={encontro.id}>
+                                <td>{encontro.titulo}</td>
+                                <td>{encontro.descricao.substr(0, 40)}{encontro.descricao.length >= 40 && '...'}</td>
+                                <td>{formatDate(encontro.data)}</td>
+                                <td>{formatHour(encontro.hora)}</td>
                                 <td>5</td>
-                                <td>{formatSituacao(enc.situacao)}</td>
+                                <td>{formatSituacao(encontro.situacao)}</td>
                                 <td>
                                     <Button color="info" size="sm" title="Detalhes">D</Button>
                                     <Button color="primary" size="sm" className="ml-1" title="Participantes">P</Button>
                                     <Button color="secondary" size="sm" className="ml-1" title="Detalhes">E</Button>
-                                    <Button color="danger" size="sm" className="ml-1" title="Remover">R</Button>
+                                    <Button color="danger" size="sm" className="ml-1" title="Remover" onClick={() => handleDelete(encontro.id, encontro.titulo)}>R</Button>
                                 </td>
                             </tr>
                         )}

@@ -21,8 +21,8 @@ export default function Novo(props) {
     const [pais, setPais] = useState('');
     const [situacao, setSituacao] = useState('');
 
-    async function handleSubmit(e) {
-        e.preventDefault();
+    async function handleSubmit(event) {
+        event.preventDefault();
         const dados = {
             titulo: titulo,
             data: data,
@@ -44,8 +44,8 @@ export default function Novo(props) {
             await api.post(`encontros/`, dados);
             alert('Criado com sucesso');
             history.push("/encontros");
-        } catch (e) {
-            console.log(e);
+        } catch (exception) {
+            console.log(exception.message);
         } finally {
             setLoading(false);
         }
@@ -69,19 +69,19 @@ export default function Novo(props) {
                                             <Input name="titulo" id="titulo" maxLength={30} value={titulo} onChange={(e) => setTitulo(e.target.value)} autoFocus required />
                                         </FormGroup>
                                     </Col>
-                                    <Col md={2}>
+                                    <Col md={3}>
                                         <FormGroup>
                                             <Label for="data">Data:</Label>
-                                            <Input name="data" id="data" maxLength={30} value={data} onChange={(e) => setData(e.target.value)} />
+                                            <Input type="date" name="data" id="data" maxLength={30} value={data} onChange={(e) => setData(e.target.value)} />
                                         </FormGroup>
                                     </Col>
                                     <Col md={2}>
                                         <FormGroup>
                                             <Label for="hora">Hora:</Label>
-                                            <Input name="hora" id="hora" maxLength={30} value={hora} onChange={(e) => setHora(e.target.value)} />
+                                            <Input type="time" name="hora" id="hora" value={hora} onChange={(e) => setHora(e.target.value)} />
                                         </FormGroup>
                                     </Col>
-                                    <Col md={4}>
+                                    <Col md={3}>
                                         <FormGroup>
                                             <Label for="organizador">Organizador:</Label>
                                             <Input name="organizador" id="organizador" maxLength={40} value={organizador} onChange={(e) => setOrganizador(e.target.value)} />

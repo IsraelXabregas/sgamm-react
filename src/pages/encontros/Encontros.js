@@ -24,6 +24,22 @@ export default function Encontros() {
         }
     }
 
+    async function handleDelete(idEncontro, tituloEncontro) {
+        window.confirm(`Deseja remover o encontro "${tituloEncontro}"?`) && await api.delete(`encontros/${idEncontro}`)
+            .then((response) => {
+                const { success, message, deletedId } = response.data;
+                setEncontros([...encontros.filter(encontros => encontros.id !== deletedId)]);
+
+                success && alert(message);
+            })
+            .catch(function (exception) {
+                const { message, error } = exception.response.data;
+                console.log(exception.message);
+                console.log(error);
+                alert(message);
+            });
+    }
+
     const loader = <div className="text-center"><Spinner type="grow" color="primary"
         style={{ width: '5rem', height: '5rem' }} /></div>;
 
@@ -35,7 +51,7 @@ export default function Encontros() {
                     {loading ? loader :
                         <>
                             <FormPesquisa />
-                            <TableEncontros encontros={encontros} />
+                            <TableEncontros encontros={encontros} handleDelete={handleDelete} />
                         </>
                     }
                 </CardBody>
